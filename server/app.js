@@ -2,8 +2,10 @@ const config = require("./utils/config");
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const middleware = require("./utils/middleware");
 const authenticationRouter = require("./controllers/authentication");
+const userRouter = require("./controllers/user");
 const mongoose = require("mongoose");
 
 mongoose.set("strictQuery", false);
@@ -25,7 +27,9 @@ app.use(
   })
 );
 app.use(express.json());
+app.use(cookieParser());
 app.use("/api/authentication", authenticationRouter);
+app.use("/api/user", middleware.userExtractor, userRouter);
 app.use(middleware.errorHandler);
 
 module.exports = app;
