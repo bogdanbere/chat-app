@@ -2,6 +2,8 @@ const config = require("./utils/config");
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const middleware = require("./utils/middleware");
+const authenticationRouter = require("./controllers/authentication");
 const mongoose = require("mongoose");
 
 mongoose.set("strictQuery", false);
@@ -15,7 +17,15 @@ mongoose
     console.error("error connecting to MongoDB:", err.message);
   });
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    // Allow cookies
+    credentials: true,
+  })
+);
 app.use(express.json());
+app.use("/api/authentication", authenticationRouter);
+app.use(middleware.errorHandler);
 
 module.exports = app;

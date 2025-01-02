@@ -32,4 +32,4 @@ messageSchema.set("toJSON", {
 
 const Message = mongoose.model("Message", messageSchema);
 
-export default Message;
+module.exports = Message;
