@@ -1,7 +1,7 @@
 const messageRouter = require("express").Router();
-const User = require("../models/user");
 const Message = require("../models/message");
 const middleware = require("../utils/middleware");
+const cloudinary = require("../utils/cloudinary");
 
 // Get messages sent to or received by a user
 messageRouter.get("/:id", middleware.userExtractor, async (req, res, next) => {
@@ -29,15 +29,20 @@ messageRouter.post("/:id", middleware.userExtractor, async (req, res, next) => {
     const { id: receiver } = req.params;
     const sender = req.user._id;
 
-    // let imageUrl;
-    // TODO: implement cloudinary and websockets
+    let imageUrl;
+    if (image) {
+      const uploadResponse = await cloudinary.uploader.upload(image);
+      imageUrl = uploadResponse.secure_url;
+    }
 
     const message = new Message({
       sender,
       receiver,
       text,
-      image,
+      image: imageUrl,
     });
+
+    // TODO: implement websockets
 
     const newMessage = await message.save();
     res.status(201).json(newMessage);
