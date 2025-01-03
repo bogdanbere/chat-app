@@ -6,6 +6,8 @@ const cookieParser = require("cookie-parser");
 const middleware = require("./utils/middleware");
 const authenticationRouter = require("./controllers/authentication");
 const userRouter = require("./controllers/user");
+const friendRouter = require("./controllers/friend");
+const messageRouter = require("./controllers/message");
 const mongoose = require("mongoose");
 
 mongoose.set("strictQuery", false);
@@ -30,6 +32,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use("/api/authentication", authenticationRouter);
 app.use("/api/user", middleware.userExtractor, userRouter);
+app.use("/api/friend", middleware.userExtractor, friendRouter);
+app.use("/api/message", middleware.userExtractor, messageRouter);
 app.use(middleware.errorHandler);
 
 module.exports = app;
