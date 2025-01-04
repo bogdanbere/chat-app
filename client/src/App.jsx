@@ -6,6 +6,7 @@ import { setUser } from "./store/userReducer";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import PageNotFound from "./pages/PageNotFound";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/" element={user ? <HomePage /> : <LoginPage />} />
         <Route path="/login" element={!user ? <LoginPage /> : <HomePage />} />
         <Route path="/signup" element={!user ? <SignupPage /> : <HomePage />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
 
       <ToastContainer
