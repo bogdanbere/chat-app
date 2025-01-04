@@ -4,7 +4,7 @@ const middleware = require("../utils/middleware");
 const cloudinary = require("../utils/cloudinary");
 
 // Get messages sent to or received by a user
-messageRouter.get("/:id", middleware.userExtractor, async (req, res, next) => {
+messageRouter.get("/:id", async (req, res, next) => {
   try {
     const { id: receiver } = req.params;
     const sender = req.user._id;
@@ -18,12 +18,13 @@ messageRouter.get("/:id", middleware.userExtractor, async (req, res, next) => {
 
     res.json(messages);
   } catch (err) {
+    console.log(`Error in Message Router: ${err}`);
     next(err);
   }
 });
 
 // Send message
-messageRouter.post("/:id", middleware.userExtractor, async (req, res, next) => {
+messageRouter.post("/:id", async (req, res, next) => {
   try {
     const { text, image } = req.body;
     const { id: receiver } = req.params;
@@ -47,6 +48,7 @@ messageRouter.post("/:id", middleware.userExtractor, async (req, res, next) => {
     const newMessage = await message.save();
     res.status(201).json(newMessage);
   } catch (err) {
+    console.log(`Error in Message Router: ${err}`);
     next(err);
   }
 });

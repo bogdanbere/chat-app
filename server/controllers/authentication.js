@@ -20,6 +20,7 @@ authenticationRouter.post("/login", async (req, res, next) => {
 
     res.status(200).json(user);
   } catch (err) {
+    console.log(`Error in Authentication Router: ${err}`);
     next(err);
   }
 });
@@ -30,6 +31,7 @@ authenticationRouter.post("/logout", async (req, res, next) => {
     res.cookie("chatAppUser", "", { maxAge: 0 });
     res.status(200).json({ message: "Logged out successfully" });
   } catch (err) {
+    console.log(`Error in Authentication Router: ${err}`);
     next(err);
   }
 });

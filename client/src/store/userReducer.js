@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import authenticationService from "../services/authentication";
 import userService from "../services/user";
+import { toast } from "react-toastify";
 
 const userSlice = createSlice({
   name: "authentication",
@@ -34,29 +35,48 @@ export const {
 
 export const authLogin = (user) => {
   return async (dispatch) => {
-    const userLoggingIn = await authenticationService.login(user);
-    dispatch(setLoggedUser(userLoggingIn));
+    try {
+      const userLoggingIn = await authenticationService.login(user);
+      dispatch(setLoggedUser(userLoggingIn));
+      toast.success("Logged in successfully");
+    } catch (err) {
+      toast.error("Wrong credentials");
+    }
   };
 };
 
 export const authLogout = () => {
   return async (dispatch) => {
-    await authenticationService.logout();
-    dispatch(removeLoggedUser());
+    try {
+      await authenticationService.logout();
+      dispatch(removeLoggedUser());
+      toast.success("Logged out successfully");
+    } catch (err) {
+      toast.error("A problem occured on the server");
+    }
   };
 };
 
 export const setUser = () => {
   return async (dispatch) => {
-    const user = await userService.getMe();
-    dispatch(setLoggedUser(user));
+    try {
+      const user = await userService.getMe();
+      if (user) dispatch(setLoggedUser(user));
+    } catch (err) {
+      toast.error("A problem occured on the server");
+    }
   };
 };
 
 export const updateUser = (user) => {
   return async (dispatch) => {
-    const updatedUser = await userService.update(user);
-    dispatch(updateLoggedUser(updatedUser));
+    try {
+      const updatedUser = await userService.update(user);
+      dispatch(updateLoggedUser(updatedUser));
+      toast.success("User updated successfully");
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
 };
 

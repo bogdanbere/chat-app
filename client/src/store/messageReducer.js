@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import messageService from "../services/message";
+import { toast } from "react-toastify";
 
 const messageSlice = createSlice({
   name: "messages",
@@ -18,15 +19,23 @@ export const { setMessages, addMessage } = messageSlice.actions;
 
 export const getMessages = (receiver) => {
   return async (dispatch) => {
-    const messages = await messageService.getMessages(receiver);
-    dispatch(setMessages(messages));
+    try {
+      const messages = await messageService.getMessages(receiver);
+      dispatch(setMessages(messages));
+    } catch (err) {
+      toast.error("A problem occured on the server");
+    }
   };
 };
 
 export const sendMessage = (receiver) => {
   return async (dispatch) => {
-    const message = await messageService.sendMessage(receiver);
-    dispatch(addMessage(message));
+    try {
+      const message = await messageService.sendMessage(receiver);
+      dispatch(addMessage(message));
+    } catch (err) {
+      toast.error("Message could not be sent");
+    }
   };
 };
 

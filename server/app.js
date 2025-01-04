@@ -30,7 +30,7 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 app.use("/api/authentication", authenticationRouter);
-app.use("/api/user", middleware.userExtractor, userRouter);
+app.use("/api/user", userRouter);
 app.use("/api/message", middleware.userExtractor, messageRouter);
 app.use(middleware.errorHandler);
 

@@ -23,6 +23,21 @@ const LoginForm = () => {
   return (
     <section className="h-screen flex items-center justify-around">
       <div>
+        <div className="text-center mb-8">
+          <div className="flex flex-col items-center gap-2 group">
+            <div
+              className="size-12 rounded-xl bg-primary/10 flex items-center justify-center 
+              group-hover:bg-primary/20 transition-colors"
+            >
+              <MessageSquare className="size-6 text-primary" />
+            </div>
+            <h1 className="text-2xl font-bold mt-2">Log In</h1>
+            <p className="text-base-content/60">
+              Log in to start chatting with your friends
+            </p>
+          </div>
+        </div>
+
         <form onSubmit={handleLogin} className="space-y-6">
           <div className="form-control">
             <label className="label">

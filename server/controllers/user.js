@@ -2,6 +2,7 @@ const userRouter = require("express").Router();
 const User = require("../models/user");
 const middleware = require("../utils/middleware");
 const bcrypt = require("bcryptjs");
+const { generateToken } = require("../utils/helpers");
 
 // Get logged user
 userRouter.get("/me", middleware.userExtractor, (req, res, next) => {
@@ -10,29 +11,30 @@ userRouter.get("/me", middleware.userExtractor, (req, res, next) => {
 
     res.status(200).json(user);
   } catch (err) {
+    console.log(`Error in User Router: ${err}`);
     next(err);
   }
 });
 
-// Get all users minus logged user
-userRouter.get("/", middleware.userExtractor, async (req, res, next) => {
+// Get all users
+userRouter.get("/", async (req, res, next) => {
   try {
-    const loggedUser = req.user._id;
-    const users = await User.find({ _id: { $ne: loggedUser } }).select(
-      "-password"
-    );
+    const users = await User.find({}).select("-password");
     return res.status(200).json(users);
   } catch (err) {
+    console.log(`Error in User Router: ${err}`);
     next(err);
   }
 });
 
+// Get user by id
 userRouter.get("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     const user = await User.findById(id).select("-password");
     return res.status(200).json(user);
   } catch (err) {
+    console.log(`Error in User Router: ${err}`);
     next(err);
   }
 });
@@ -41,6 +43,13 @@ userRouter.get("/:id", async (req, res, next) => {
 userRouter.post("/", async (req, res, next) => {
   const { username, name, password } = req.body;
   try {
+    if (!username || !name || !password) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(400).json({ message: "Username already exists" });
+    }
     if (password.length < 6) {
       return res
         .status(400)
@@ -62,6 +71,7 @@ userRouter.post("/", async (req, res, next) => {
 
     res.status(201).json(savedUser);
   } catch (err) {
+    console.log(`Error in User Router: ${err}`);
     next(err);
   }
 });
@@ -85,6 +95,7 @@ userRouter.put("/", middleware.userExtractor, async (req, res, next) => {
 
     res.status(200).json(updatedUser);
   } catch (err) {
+    console.log(`Error in User Router: ${err}`);
     next(err);
   }
 });
@@ -122,6 +133,7 @@ userRouter.put(
 
       res.status(200).json({ message: "Friend added successfully" });
     } catch (err) {
+      console.log(`Error in User Router: ${err}`);
       next(err);
     }
   }
