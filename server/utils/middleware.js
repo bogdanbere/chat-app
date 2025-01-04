@@ -37,4 +37,8 @@ const userExtractor = async (req, res, next) => {
   }
 };
 
-module.exports = { errorHandler, userExtractor };
+const unknownEndpoint = (req, res) => {
+  res.status(404).json({ message: "Unknown endpoint" });
+};
+
+module.exports = { errorHandler, userExtractor, unknownEndpoint };

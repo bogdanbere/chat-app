@@ -32,6 +32,7 @@ app.use(cookieParser());
 app.use("/api/authentication", authenticationRouter);
 app.use("/api/user", userRouter);
 app.use("/api/message", middleware.userExtractor, messageRouter);
+app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
 
 module.exports = app;
