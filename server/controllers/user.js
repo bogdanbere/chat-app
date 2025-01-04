@@ -4,11 +4,9 @@ const middleware = require("../utils/middleware");
 const bcrypt = require("bcryptjs");
 
 // Get logged user
-userRouter.get("/me", middleware.userExtractor, async (req, res, next) => {
+userRouter.get("/me", middleware.userExtractor, (req, res, next) => {
   try {
-    const userId = req.user._id;
-    const user = await User.findById({ userId }).select("-password");
-    if (!user) return res.status(404).json({ message: "User not found" });
+    const user = req.user;
 
     res.status(200).json(user);
   } catch (err) {
