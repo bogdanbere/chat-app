@@ -5,20 +5,16 @@ const themeSlice = createSlice({
   initialState: "light",
   reducers: {
     setTheme(state, action) {
-      if (state === "light") {
-        return "dark";
-      } else if (state === "dark") {
-        return "light";
-      }
+      return action.payload;
     },
   },
 });
 
 export const { setTheme } = themeSlice.actions;
 
-export const changeTheme = () => {
+export const changeTheme = (theme) => {
   return (dispatch) => {
-    dispatch(setTheme());
+    dispatch(setTheme(theme));
   };
 };
 

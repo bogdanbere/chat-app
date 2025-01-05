@@ -61,7 +61,11 @@ export const setUser = () => {
   return async (dispatch) => {
     try {
       const user = await userService.getMe();
-      if (user) dispatch(setLoggedUser(user));
+      if (user) {
+        dispatch(setLoggedUser(user));
+      } else {
+        return state;
+      }
     } catch (err) {
       toast.error("A problem occured on the server");
     }

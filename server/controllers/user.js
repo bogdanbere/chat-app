@@ -8,7 +8,6 @@ const { generateToken } = require("../utils/helpers");
 userRouter.get("/me", middleware.userExtractor, (req, res, next) => {
   try {
     const user = req.user;
-
     res.status(200).json(user);
   } catch (err) {
     console.log(`Error in User Router: ${err}`);

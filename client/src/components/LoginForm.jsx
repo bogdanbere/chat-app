@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { authLogin } from "../store/userReducer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Loader2, Lock, Mail, MessageSquare } from "lucide-react";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleLogin = (e) => {
     e.preventDefault();
@@ -19,15 +20,16 @@ const LoginForm = () => {
     e.target.password.value = "";
     dispatch(authLogin(credentials));
     setIsLoggingIn(false);
+    navigate("/");
   };
   return (
-    <section className="h-screen flex items-center justify-around">
-      <div>
+    <section className="min-h-screen flex items-center justify-center px-4 py-8">
+      <div className="w-full max-w-sm bg-base-100 p-6 rounded-lg shadow-md">
         <div className="text-center mb-8">
           <div className="flex flex-col items-center gap-2 group">
             <div
               className="size-12 rounded-xl bg-primary/10 flex items-center justify-center 
-              group-hover:bg-primary/20 transition-colors"
+            group-hover:bg-primary/20 transition-colors"
             >
               <MessageSquare className="size-6 text-primary" />
             </div>
