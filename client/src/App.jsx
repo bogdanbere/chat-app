@@ -61,15 +61,21 @@ const App = () => {
             />
             <Route
               path="/login"
-              element={!user ? <LoginPage /> : <HomePage />}
+              element={
+                isLoading ? <Loading /> : !user ? <LoginPage /> : <HomePage />
+              }
             />
             <Route
               path="/signup"
-              element={!user ? <SignupPage /> : <HomePage />}
+              element={
+                isLoading ? <Loading /> : !user ? <SignupPage /> : <HomePage />
+              }
             />
             <Route
               path="/profile/me"
-              element={user ? <MePage /> : <LoginPage />}
+              element={
+                isLoading ? <Loading /> : user ? <MePage /> : <LoginPage />
+              }
             />
             <Route
               path="/profile/:id"
