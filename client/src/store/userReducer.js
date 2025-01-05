@@ -67,15 +67,17 @@ export const setUser = () => {
         return state;
       }
     } catch (err) {
-      toast.error("A problem occured on the server");
+      if (err.response?.status !== 401) {
+        toast.error("A problem occured on the server");
+      }
     }
   };
 };
 
-export const updateUser = (user) => {
+export const updateUser = (data) => {
   return async (dispatch) => {
     try {
-      const updatedUser = await userService.update(user);
+      const updatedUser = await userService.update(data);
       dispatch(updateLoggedUser(updatedUser));
       toast.success("User updated successfully");
     } catch (err) {

@@ -22,7 +22,7 @@ const signup = async (credentials) => {
 };
 
 const update = async (updatedUserObj) => {
-  const res = await axios.put(baseUrl, updatedUserObj);
+  const res = await axios.patch(baseUrl, updatedUserObj);
   return res.data;
 };
 

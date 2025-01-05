@@ -1,7 +1,7 @@
-import React from "react";
+import Me from "../components/Me";
 
 const MePage = () => {
-  return <div>MePage</div>;
+  return <Me />;
 };
 
 export default MePage;

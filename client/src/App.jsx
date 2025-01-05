@@ -44,7 +44,7 @@ const App = () => {
       setIsLoading(false);
     };
     fetchUser();
-  }, [dispatch]);
+  }, [dispatch, location.pathname]);
 
   return (
     <div data-theme={theme} className="h-screen flex flex-col">

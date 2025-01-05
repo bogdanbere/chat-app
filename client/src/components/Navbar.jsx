@@ -16,7 +16,11 @@ const Navbar = () => {
   const user = useSelector((state) => state.user);
   const theme = useSelector((state) => state.theme);
   const allUsers = useSelector((state) => state.users);
-  const users = allUsers.filter((u) => u.id !== user.id);
+  let users = [];
+  if (user) {
+    users = allUsers.filter((u) => u.id !== user.id);
+  }
+
   useEffect(() => {
     dispatch(setUsers());
   }, [dispatch]);
@@ -117,7 +121,7 @@ const Navbar = () => {
               theme === "light" ? "text-black" : "text-grey"
             }`}
           >
-            ChatApp
+            {user ? user.name : "Chat App"}
           </h1>
         </Link>
 

@@ -23,7 +23,7 @@ const LoginForm = () => {
     navigate("/");
   };
   return (
-    <section className="min-h-screen flex items-center justify-center px-4 py-8">
+    <section className="min-h-screen flex items-center justify-center px-4 py-8 mb-12 mt-12">
       <div className="w-full max-w-sm bg-base-100 p-6 rounded-lg shadow-md">
         <div className="text-center mb-8">
           <div className="flex flex-col items-center gap-2 group">

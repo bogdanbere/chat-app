@@ -3,6 +3,7 @@ const User = require("../models/user");
 const middleware = require("../utils/middleware");
 const bcrypt = require("bcryptjs");
 const { generateToken } = require("../utils/helpers");
+const cloudinary = require("../utils/cloudinary");
 
 // Get logged user
 userRouter.get("/me", middleware.userExtractor, (req, res, next) => {
@@ -75,26 +76,42 @@ userRouter.post("/", async (req, res, next) => {
   }
 });
 
-// Update profile picture
-userRouter.put("/", middleware.userExtractor, async (req, res, next) => {
+// Update profile picture and name
+userRouter.patch("/", middleware.userExtractor, async (req, res, next) => {
   try {
     const { profilePic, name } = req.body;
-    const userId = req.user._id;
+    const user = req.user;
+    let imageUrl = "";
 
-    if (!profilePic) {
-      return res.status(400).json({ message: "Profile picture required" });
+    if (profilePic) {
+      const uploadResponse = await cloudinary.uploader.upload(profilePic);
+      imageUrl = uploadResponse.secure_url;
     }
 
+    if (!imageUrl && !name) {
+      return res.status(400).json({
+        message:
+          "At least one field (profilePic or name) must be provided for update",
+      });
+    }
+
+    const updateData = {};
+    if (imageUrl) updateData.profilePic = imageUrl;
+    if (name) updateData.name = name;
+
     const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      // TODO: add cloudinary
-      { profilePic, name },
+      user._id,
+      { $set: updateData },
       { new: true }
     );
 
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     res.status(200).json(updatedUser);
   } catch (err) {
-    console.log(`Error in User Router: ${err}`);
+    console.error(`Error in PATCH /user: ${err.message}`);
     next(err);
   }
 });
