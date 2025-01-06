@@ -19,8 +19,8 @@ const userSlice = createSlice({
       return updatedUser;
     },
     updateUserFriendsList(state, action) {
-      const { friendId } = action.payload;
-      const updatedUser = { ...state, friends: [...state.friends, friendId] };
+      const friend = action.payload;
+      const updatedUser = { ...state, friends: [...state.friends, friend.id] };
       return updatedUser;
     },
   },
@@ -87,9 +87,9 @@ export const updateUser = (data) => {
 };
 
 // Backend is updated in usersReducer, here we just update the state of logged user
-export const addUserFriend = (friendId) => {
+export const addUserFriend = (friend) => {
   return async (dispatch) => {
-    dispatch(updateUserFriendsList(friendId));
+    dispatch(updateUserFriendsList(friend));
   };
 };
 

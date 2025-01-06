@@ -26,8 +26,8 @@ const update = async (updatedUserObj) => {
   return res.data;
 };
 
-const updateFriends = async (friend) => {
-  const res = await axios.put(`${baseUrl}/add-friend`, friend);
+const updateFriends = async (friendId) => {
+  const res = await axios.put(`${baseUrl}/${friendId}`);
   return res.data;
 };
 

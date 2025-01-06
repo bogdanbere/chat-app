@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedUser } from "../store/selectedUserReducer";
 import { X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const ChatHeader = () => {
   const dispatch = useDispatch();
@@ -13,10 +14,12 @@ const ChatHeader = () => {
           {/* Avatar */}
           <div className="avatar">
             <div className="size-8 sm:size-10 rounded-full relative">
-              <img
-                src={selectedUser.profilePic || "/avatar.png"}
-                alt={selectedUser.name}
-              />
+              <Link to={`/profile/${selectedUser.id}`}>
+                <img
+                  src={selectedUser.profilePic || "/avatar.png"}
+                  alt={selectedUser.name}
+                />
+              </Link>
             </div>
           </div>
 

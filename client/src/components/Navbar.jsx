@@ -73,12 +73,15 @@ const Navbar = () => {
     return filteredResults.length > 0 ? filteredResults : [];
   };
 
+  const handleOnSelect = (item) => {
+    navigate(`/profile/${item.id}`);
+  };
+
   const formatResult = (item) => {
     return (
       <>
         <Link
           to={`/profile/${item.id}`}
-          onClick={toggleBoth}
           style={{ display: "block", textAlign: "left" }}
         >
           {item.name}
@@ -88,7 +91,7 @@ const Navbar = () => {
   };
 
   const styling =
-    theme === "light"
+    theme === "fantasy"
       ? {
           border: "1px solid #dfe1e5",
           backgroundColor: "white",
@@ -140,6 +143,7 @@ const Navbar = () => {
             <Searchbar
               handleOnSearch={handleOnSearch}
               formatResult={formatResult}
+              handleOnSelect={handleOnSelect}
               users={users}
               styling={styling}
             />
@@ -226,6 +230,7 @@ const Navbar = () => {
         <div className="md:hidden flex justify-center p-4">
           <Searchbar
             handleOnSearch={handleOnSearch}
+            handleOnSelect={handleOnSelect}
             formatResult={formatResult}
             users={users}
             styling={styling}

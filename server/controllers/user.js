@@ -116,43 +116,38 @@ userRouter.patch("/", middleware.userExtractor, async (req, res, next) => {
   }
 });
 
-userRouter.put(
-  "/add-friend",
-  middleware.userExtractor,
-  async (req, res, next) => {
-    try {
-      const { friendId } = req.body;
-      const userId = req.user._id;
+userRouter.put("/:id", middleware.userExtractor, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user._id;
 
-      if (userId === friendId) {
-        return res
-          .status(400)
-          .json({ message: "You cannot add yourself as a friend" });
-      }
-
-      const user = await User.findById(userId);
-      const friend = await User.findById(friendId);
-
-      if (!user || !friend) {
-        return res.status(404).json({ message: "User not found" });
-      }
-
-      if (user.friends.includes(friendId)) {
-        return res.status(400).json({ message: "Already friends" });
-      }
-
-      user.friends.push(friendId);
-      await user.save();
-
-      friend.friends.push(userId);
-      await friend.save();
-
-      res.status(200).json({ message: "Friend added successfully" });
-    } catch (err) {
-      console.log(`Error in User Router: ${err}`);
-      next(err);
+    if (userId === id) {
+      return res
+        .status(400)
+        .json({ message: "You cannot add yourself as a friend" });
     }
+
+    const user = await User.findById(userId);
+    const friend = await User.findById(id);
+
+    if (!user || !friend) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (user.friends.includes(id)) {
+      return res.status(400).json({ message: "Already friends" });
+    }
+
+    await Promise.all([
+      User.findByIdAndUpdate(userId, { $push: { friends: id } }),
+      User.findByIdAndUpdate(id, { $push: { friends: userId } }),
+    ]);
+
+    res.status(200).json({ message: "Friend added successfully" });
+  } catch (err) {
+    console.log(`Error in User Router: ${err}`);
+    next(err);
   }
-);
+});
 
 module.exports = userRouter;

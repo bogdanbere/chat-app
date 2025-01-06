@@ -37,7 +37,7 @@ const Sidebar = () => {
       {/* Sidebar Overlay for Mobile */}
       {isSidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden mb-6"
+          className="fixed inset-0 bg-black bg-opacity-30 z-40 lg:hidden mb-6"
           onClick={handleToggleSidebar}
         ></div>
       )}
@@ -84,8 +84,8 @@ const Sidebar = () => {
               key={u.id}
               onClick={() => selectUser(u)}
               className={`
-            w-full p-3 flex items-center gap-3
-            hover:bg-base-300 transition-colors
+            w-full flex items-center gap-3
+            hover:bg-base-300 transition-colors m-0
             ${
               selectedUser?.id === u.id
                 ? "bg-base-300 ring-1 ring-base-300"

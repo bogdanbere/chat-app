@@ -13,12 +13,14 @@ const usersSlice = createSlice({
       state.push(action.payload);
     },
     updateFriendsList(state, action) {
-      const { friendId } = action.payload;
-      const friend = state.find((f) => f.id === friendId);
+      const { friend, user } = action.payload;
 
-      if (!friend.friends.includes(friendId)) {
-        friend.friends = [...friend.friends, friendId];
-      }
+      const updatedFriend = {
+        ...friend,
+        friends: [...friend.friends, user.id],
+      };
+
+      return state.map((u) => (u.id !== friend.id ? u : updatedFriend));
     },
   },
 });
@@ -48,13 +50,15 @@ export const signup = (credentials) => {
   };
 };
 
-export const addFriendsForFriend = (friendId) => {
+export const addFriendsForFriend = (users) => {
   return async (dispatch) => {
+    const { friend, user } = users;
     try {
-      await userService.updateFriends(friendId);
-      dispatch(updateFriendsList(friendId));
+      await userService.updateFriends(friend.id);
+      dispatch(updateFriendsList({ friend, user }));
       toast.success("Friend added successfully");
     } catch (err) {
+      console.log("Error in usersReducer");
       toast.error(err.message);
     }
   };

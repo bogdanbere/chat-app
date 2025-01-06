@@ -44,9 +44,7 @@ const Me = () => {
           <h1 className="text-4xl font-semibold text-base-content">
             Edit Profile
           </h1>
-          <p className="mt-2 text-zinc-400">
-            Update your profile information below
-          </p>
+          <p className="mt-2 ">Update your profile information below</p>
         </div>
 
         {/* Main Content */}
@@ -76,7 +74,7 @@ const Me = () => {
                 />
               </label>
             </div>
-            <p className="text-sm text-zinc-400">
+            <p className="text-sm ">
               {isUpdatingProfile
                 ? "Uploading your new avatar..."
                 : "Click the camera icon to upload a new profile picture"}
@@ -89,7 +87,7 @@ const Me = () => {
             <div>
               <label
                 htmlFor="name"
-                className="block text-sm text-zinc-400 mb-1 flex items-center gap-2"
+                className="block text-sm mb-1 flex items-center gap-2"
               >
                 <ALargeSmall className="w-5 h-5" />
                 Name
@@ -107,12 +105,12 @@ const Me = () => {
             <div>
               <label
                 htmlFor="username"
-                className="block text-sm text-zinc-400 mb-1 flex items-center gap-2"
+                className="block text-sm  mb-1 flex items-center gap-2"
               >
                 <User className="w-5 h-5" />
                 Username
               </label>
-              <p className="px-4 py-2 bg-base-100 rounded-lg border text-zinc-600">
+              <p className="px-4 py-2 bg-base-100 rounded-lg border ">
                 {user.username}
               </p>
             </div>
@@ -124,8 +122,8 @@ const Me = () => {
           <h2 className="text-xl font-medium mb-4 text-base-content">
             Account Information
           </h2>
-          <div className="space-y-3 text-sm text-zinc-600">
-            <div className="flex items-center justify-between border-b border-zinc-700 pb-2">
+          <div className="space-y-3 text-sm ">
+            <div className="flex items-center justify-between border-b pb-2">
               <span>Member Since</span>
               <span>{user.createdAt?.split("T")[0]}</span>
             </div>
