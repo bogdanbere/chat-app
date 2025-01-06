@@ -25,6 +25,15 @@ const Navbar = () => {
     dispatch(setUsers());
   }, [dispatch]);
 
+  useEffect(() => {
+    const storedTheme = window.localStorage.getItem("chatTheme");
+    if (storedTheme) {
+      dispatch(changeTheme(storedTheme));
+    } else {
+      window.localStorage.setItem("chatTheme", theme);
+    }
+  }, [dispatch, theme]);
+
   const handleLogout = () => {
     dispatch(authLogout());
     setIsSearchVisible(false);

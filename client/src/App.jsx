@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { ToastContainer, Bounce } from "react-toastify";
 import { setUser } from "./store/userReducer";
-import { changeTheme } from "./store/themeReducer";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
@@ -12,7 +11,7 @@ import SignupPage from "./pages/SignupPage";
 import MePage from "./pages/MePage";
 import ProfilePage from "./pages/ProfilePage";
 import PageNotFound from "./pages/PageNotFound";
-import Loading from "./components/Loading";
+import Loading from "./components/Loading/Loading";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -20,19 +19,6 @@ const App = () => {
   const location = useLocation();
   const theme = useSelector((state) => state.theme);
   const user = useSelector((state) => state.user);
-
-  useEffect(() => {
-    if (!window.localStorage.getItem("chatTheme")) {
-      window.localStorage.setItem("chatTheme", theme);
-    }
-  }, [theme]);
-
-  useEffect(() => {
-    const storedTheme = window.localStorage.getItem("chatTheme");
-    if (storedTheme) {
-      dispatch(changeTheme(storedTheme));
-    }
-  }, [dispatch]);
 
   useEffect(() => {
     const fetchUser = async () => {
