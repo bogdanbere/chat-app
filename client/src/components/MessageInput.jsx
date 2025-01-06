@@ -82,7 +82,7 @@ const MessageInput = () => {
         className="flex items-center gap-2 ml-6"
       >
         <div
-          className="flex-1 flex gap-2 mr-2"
+          className="flex-1 flex gap-2 mr-2 justify-around"
           onFocus={() => setIsTextFocused(true)}
           onBlur={() => setIsTextFocused(false)}
         >
@@ -104,24 +104,25 @@ const MessageInput = () => {
             ref={fileInputRef}
             onChange={handleImageChange}
           />
+          <div className="flex justify-around">
+            <button
+              type="button"
+              className={`btn btn-circle ${
+                imagePreview ? "text-emerald-500" : "text-zinc-400"
+              }`}
+              onClick={() => fileInputRef.current?.click()}
+            >
+              <Image size={20} />
+            </button>
 
-          <button
-            type="button"
-            className={`btn btn-circle ${
-              imagePreview ? "text-emerald-500" : "text-zinc-400"
-            }`}
-            onClick={() => fileInputRef.current?.click()}
-          >
-            <Image size={20} />
-          </button>
-
-          <button
-            type="submit"
-            className="btn btn-circle ml-2" // Small left margin
-            disabled={!text.trim() && !imagePreview}
-          >
-            <Send size={22} />
-          </button>
+            <button
+              type="submit"
+              className="btn btn-circle ml-2" // Small left margin
+              disabled={!text.trim() && !imagePreview}
+            >
+              <Send size={22} />
+            </button>
+          </div>
         </div>
       </form>
     </div>

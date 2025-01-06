@@ -43,12 +43,12 @@ const Navbar = () => {
 
   const handleChangeTheme = () => {
     setIsMenuOpen(false);
-    if (theme === "light") {
-      dispatch(changeTheme("dark"));
-      window.localStorage.setItem("chatTheme", "dark");
+    if (theme === "fantasy") {
+      dispatch(changeTheme("dracula"));
+      window.localStorage.setItem("chatTheme", "dracula");
     } else {
-      dispatch(changeTheme("light"));
-      window.localStorage.setItem("chatTheme", "light");
+      dispatch(changeTheme("fantasy"));
+      window.localStorage.setItem("chatTheme", "fantasy");
     }
   };
 

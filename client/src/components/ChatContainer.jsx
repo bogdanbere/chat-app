@@ -25,7 +25,7 @@ const ChatContainer = () => {
   }, [messages]);
 
   return (
-    <div className="flex-1 flex flex-col overflow-hidden bg-base-100 pt-3 items-center justify-center bg-base-100/50 mb-6 mt-6 min-w-[358px] sm:min-w-[672px]">
+    <div className="flex-1 flex flex-col overflow-hidden bg-base-100 pt-3 items-center justify-center bg-base-100/50 mb-6 mt-6 min-w-[358px] sm:min-w-[672px] lg:min-w-[650px]">
       <ChatHeader />
       <div className="flex-1 space-y-6 w-full min-w-[200px] mr-8">
         {messages.map((message) => (
