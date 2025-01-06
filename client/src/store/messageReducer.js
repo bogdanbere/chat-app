@@ -28,10 +28,10 @@ export const getMessages = (receiver) => {
   };
 };
 
-export const sendMessage = (receiver) => {
+export const sendMessage = (receiver, data) => {
   return async (dispatch) => {
     try {
-      const message = await messageService.sendMessage(receiver);
+      const message = await messageService.sendMessage(receiver, data);
       dispatch(addMessage(message));
     } catch (err) {
       toast.error("Message could not be sent");

@@ -1,64 +1,125 @@
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import SidebarLoading from "./loading/SidebarLoading";
-import { Users } from "lucide-react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedUser } from "../store/selectedUserReducer";
+import { Users, ListCollapse, X } from "lucide-react";
 
 const Sidebar = () => {
-  const [isUsersLoading, setIsUsersLoading] = useState(false);
+  const dispatch = useDispatch();
   const [showOnlineOnly, setShowOnlineOnly] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const users = useSelector((state) => state.users);
   const user = useSelector((state) => state.user);
+  const selectedUser = useSelector((state) => state.selectedUser);
+
+  const selectUser = (user) => {
+    if (isSidebarOpen) setIsSidebarOpen(false);
+    dispatch(setSelectedUser(user));
+  };
 
   const friends = users.filter((u) => u.friends.includes(user.id));
 
-  if (isUsersLoading) return <SidebarLoading />;
+  const handleToggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
 
   return (
-    <aside className="h-full w-20 lg:w-72 border-r border-base-300 flex flex-col transition-all duration-200">
-      <div className="border-b border-base-300 w-full p-5">
-        <div className="flex items-center gap-2">
-          <Users className="size-6" />
-          <span className="font-medium hidden lg:block">Friends</span>
-        </div>
-        {/* TODO: Online filter toggle */}
-      </div>
+    <>
+      {/* Mobile Sidebar Toggle Button */}
+      {!isSidebarOpen && (
+        <button
+          className="lg:hidden fixed top-24 left-6 z-50 bg-base-300 p-2 rounded-full shadow-lg -mt-4"
+          onClick={handleToggleSidebar}
+        >
+          <ListCollapse className="w-6 h-6" />
+        </button>
+      )}
 
-      <div className="overflow-y-auto w-full py-3">
-        {friends.map((u) => (
+      {/* Sidebar Overlay for Mobile */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden mb-6"
+          onClick={handleToggleSidebar}
+        ></div>
+      )}
+
+      {/* Sidebar Component */}
+      <aside
+        className={`mb-6 fixed z-50 h-full w-72 border-r border-base-300 flex flex-col bg-white transition-transform transform duration-300 ease-in-out ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } lg:translate-x-0 lg:static lg:w-72`}
+      >
+        {/* Sidebar Header */}
+        <div className="border-b border-base-300 w-full p-5 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Users className="w-6 h-6" />
+            <span className="font-medium hidden lg:block">Friends</span>
+          </div>
+
+          {/* Close Button (visible on mobile only) */}
           <button
-            key={u.id}
-            onClick={() => setSelectedUser(user)}
-            className={`
-                w-full p-3 flex items-center gap-3
-                hover:bg-base-300 transition-colors
-                ${
-                  selectedUser?.id === u.id
-                    ? "bg-base-300 ring-1 ring-base-300"
-                    : ""
-                }
-              `}
+            className="lg:hidden p-2 rounded-full hover:bg-base-300"
+            onClick={handleToggleSidebar}
           >
-            <div className="relative mx-auto lg:mx-0">
-              <img
-                src={u.profilePic || "/avatar.png"}
-                alt={u.name}
-                className="size-12 object-cover rounded-full"
-              />
-            </div>
-
-            {/* User info - only visible on larger screens */}
-            <div className="hidden lg:block text-left min-w-0">
-              <div className="font-medium truncate">{u.name}</div>
-            </div>
+            <X className="w-6 h-6" />
           </button>
-        ))}
+        </div>
 
-        {friends.length === 0 && (
-          <div className="text-center text-zinc-500 py-4">No online users</div>
-        )}
-      </div>
-    </aside>
+        {/* Sidebar Body */}
+        <div className="overflow-y-auto w-full py-3">
+          {/* Online Friends Toggle */}
+          <div className="p-3">
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                className="form-checkbox"
+                checked={showOnlineOnly}
+                onChange={(e) => setShowOnlineOnly(e.target.checked)}
+              />
+              <span>Show Online Only</span>
+            </label>
+          </div>
+
+          {friends.map((u) => (
+            <button
+              key={u.id}
+              onClick={() => selectUser(u)}
+              className={`
+            w-full p-3 flex items-center gap-3
+            hover:bg-base-300 transition-colors
+            ${
+              selectedUser?.id === u.id
+                ? "bg-base-300 ring-1 ring-base-300"
+                : ""
+            }
+          `}
+            >
+              <div className="w-full p-3 flex items-center gap-2 lg:gap-3 hover:bg-base-300 transition-colors">
+                <div className="relative flex-shrink-0">
+                  <img
+                    src={u.profilePic || "/avatar.png"}
+                    alt={u.name}
+                    className="w-10 h-10 object-cover rounded-full"
+                  />
+                </div>
+
+                <div className="text-left min-w-0">
+                  <div className="font-medium truncate text-sm lg:text-base">
+                    {u.name}
+                  </div>
+                </div>
+              </div>
+            </button>
+          ))}
+
+          {friends.length === 0 && (
+            <div className="text-center text-zinc-500 py-4">
+              No online users
+            </div>
+          )}
+        </div>
+      </aside>
+    </>
   );
 };
+
 export default Sidebar;

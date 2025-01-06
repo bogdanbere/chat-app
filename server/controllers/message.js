@@ -1,6 +1,5 @@
 const messageRouter = require("express").Router();
 const Message = require("../models/message");
-const middleware = require("../utils/middleware");
 const cloudinary = require("../utils/cloudinary");
 
 // Get messages sent to or received by a user

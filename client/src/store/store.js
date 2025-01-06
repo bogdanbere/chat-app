@@ -3,6 +3,7 @@ import userReducer from "./userReducer";
 import usersReducer from "./usersReducer";
 import messageReducer from "./messageReducer";
 import themeReducer from "./themeReducer";
+import selectedUserReducer from "./selectedUserReducer";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     users: usersReducer,
     messages: messageReducer,
     theme: themeReducer,
+    selectedUser: selectedUserReducer,
   },
 });
 

@@ -2,6 +2,7 @@ const config = require("./utils/config");
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const middleware = require("./utils/middleware");
 const authenticationRouter = require("./controllers/authentication");
@@ -29,6 +30,8 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
+app.use(bodyParser.json({ limit: "2mb" }));
+app.use(bodyParser.urlencoded({ limit: "2mb", extended: true }));
 app.use("/api/authentication", authenticationRouter);
 app.use("/api/user", userRouter);
 app.use("/api/message", middleware.userExtractor, messageRouter);
