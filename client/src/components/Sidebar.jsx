@@ -10,6 +10,7 @@ const Sidebar = () => {
   const users = useSelector((state) => state.users);
   const user = useSelector((state) => state.user);
   const selectedUser = useSelector((state) => state.selectedUser);
+  const theme = useSelector((state) => state.theme);
 
   const selectUser = (user) => {
     if (isSidebarOpen) setIsSidebarOpen(false);
@@ -34,19 +35,17 @@ const Sidebar = () => {
         </button>
       )}
 
-      {/* Sidebar Overlay for Mobile */}
-      {isSidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-30 z-40 lg:hidden mb-6"
-          onClick={handleToggleSidebar}
-        ></div>
-      )}
-
       {/* Sidebar Component */}
       <aside
         className={`mb-6 fixed z-50 h-full w-72 border-r border-base-300 flex flex-col transition-transform transform duration-300 ease-in-out lg:max-w-[250px] ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 lg:static lg:w-72`}
+        } lg:translate-x-0 lg:static lg:w-72 ${
+          isSidebarOpen && theme === "fantasy"
+            ? "bg-white"
+            : isSidebarOpen && theme === "dracula"
+            ? "bg-gray-600"
+            : ""
+        }`}
       >
         {/* Sidebar Header */}
         <div className="border-b border-base-300 w-full p-5 flex items-center justify-between">
