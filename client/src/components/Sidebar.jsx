@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedUser } from "../store/selectedUserReducer";
 import { Users, ListCollapse, X } from "lucide-react";
+import { onlineUsers } from "../services/socket";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,9 @@ const Sidebar = () => {
   };
 
   const friends = users.filter((u) => u.friends.includes(user.id));
+  const online = friends.filter((f) => onlineUsers.includes(f.id));
+
+  const friendsArray = showOnlineOnly ? online : friends;
 
   const handleToggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
@@ -76,9 +80,10 @@ const Sidebar = () => {
               />
               <span>Show Online Only</span>
             </label>
+            <span className="text-xs">({onlineUsers.length - 1} online)</span>
           </div>
 
-          {friends.map((u) => (
+          {friendsArray.map((u) => (
             <button
               key={u.id}
               onClick={() => selectUser(u)}

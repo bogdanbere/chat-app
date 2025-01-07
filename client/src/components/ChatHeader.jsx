@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedUser } from "../store/selectedUserReducer";
+import { onlineUsers } from "../services/socket";
 import { X } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -28,6 +29,9 @@ const ChatHeader = () => {
             <h3 className="font-medium text-sm sm:text-base">
               {selectedUser.name}
             </h3>
+            <p className="text-sm text-base-content/70">
+              {onlineUsers.includes(selectedUser._id) ? "Online" : "Offline"}
+            </p>
           </div>
         </div>
 

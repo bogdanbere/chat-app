@@ -28,6 +28,14 @@ export const getMessages = (receiver) => {
   };
 };
 
+export const setMessagesWithoutHttpRequest = (message, messages) => {
+  return async (dispatch) => {
+    if (!messages.contains(message)) {
+      dispatch(setMessages([...messages, message]));
+    }
+  };
+};
+
 export const sendMessage = (receiver, data) => {
   return async (dispatch) => {
     try {

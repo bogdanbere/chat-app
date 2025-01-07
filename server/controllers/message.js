@@ -1,6 +1,7 @@
 const messageRouter = require("express").Router();
 const Message = require("../models/message");
 const cloudinary = require("../utils/cloudinary");
+const { io, getReceiverSocketId } = require("../utils/socket");
 
 // Get messages sent to or received by a user
 messageRouter.get("/:id", async (req, res, next) => {
@@ -42,9 +43,13 @@ messageRouter.post("/:id", async (req, res, next) => {
       image: imageUrl,
     });
 
-    // TODO: implement websockets
-
     const newMessage = await message.save();
+
+    const receiverSocketId = getReceiverSocketId(receiver);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", message);
+    }
+
     res.status(201).json(newMessage);
   } catch (err) {
     console.log(`Error in Message Router: ${err}`);

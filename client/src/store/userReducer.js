@@ -37,7 +37,8 @@ export const authLogin = (user) => {
   return async (dispatch) => {
     try {
       const userLoggingIn = await authenticationService.login(user);
-      dispatch(setLoggedUser(userLoggingIn));
+      await dispatch(setLoggedUser(userLoggingIn));
+
       toast.success("Logged in successfully");
     } catch (err) {
       toast.error("Wrong credentials");
