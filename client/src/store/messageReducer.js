@@ -34,6 +34,9 @@ export const sendMessage = (receiver, data) => {
       const message = await messageService.sendMessage(receiver, data);
       dispatch(addMessage(message));
     } catch (err) {
+      if (err.response.status === 413) {
+        toast.error("Attachment too large");
+      }
       toast.error("Message could not be sent");
     }
   };

@@ -15,6 +15,8 @@ const errorHandler = (err, req, res, next) => {
     return res.status(400).json({ error: "Expected `username` to be unique" });
   } else if (err.name === "JsonWebTokenError") {
     return res.status(401).json({ error: "Token invalid" });
+  } else if (err.name === "PayloadTooLargeError") {
+    return res.status(413).json({ error: "Attachment too large" });
   }
   next(err);
 };
