@@ -117,7 +117,8 @@ const Navbar = () => {
               formatResult={formatResult}
               handleOnSelect={handleOnSelect}
               items={users}
-              placeholder="Users"
+              placeholder="Search Users..."
+              type="user"
             />
           </div>
         )}
@@ -205,7 +206,7 @@ const Navbar = () => {
             handleOnSelect={handleOnSelect}
             formatResult={formatResult}
             users={users}
-            styling={styling}
+            placeholder="Search Users..."
           />
         </div>
       )}

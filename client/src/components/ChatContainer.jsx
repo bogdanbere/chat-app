@@ -56,17 +56,10 @@ const ChatContainer = () => {
     }
   }, [messages, isAtBottom, user.id]);
 
-  const handleOnSelect = (item) => {
-    const messageElement = document.getElementById(`message-${item.id}`);
-
-    if (messageElement) {
-      messageElement.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  };
-
   return (
     <div className="flex-1 flex flex-col overflow-hidden bg-base-100 items-center justify-center bg-base-100/50 mb-6 mt-1 min-w-[358px] sm:min-w-[672px] lg:min-w-[650px]">
-      <ChatHeader />
+      <ChatHeader messages={messages} />
+
       <div
         className="flex-1 space-y-6 w-full min-w-[200px] overflow-auto"
         ref={chatContainerRef}

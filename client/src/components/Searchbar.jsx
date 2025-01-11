@@ -5,8 +5,9 @@ const Searchbar = ({
   handleOnSearch,
   handleOnSelect,
   formatResult,
-  items = [],
+  items,
   placeholder,
+  type,
 }) => {
   const theme = useSelector((state) => state.theme);
   const styling =
@@ -24,6 +25,7 @@ const Searchbar = ({
           placeholderColor: "#b0b0b0",
           clearIconMargin: "3px 14px 0 0",
           searchIconMargin: "0 0 0 16px",
+          zIndex: 40,
         }
       : {
           border: "1px solid #555",
@@ -38,10 +40,14 @@ const Searchbar = ({
           placeholderColor: "#888",
           clearIconMargin: "3px 14px 0 0",
           searchIconMargin: "0 0 0 16px",
+          zIndex: 40,
         };
+
   return (
     <div className="w-1/2">
       <ReactSearchAutocomplete
+        fuseOptions={{ keys: type === "user" ? ["name"] : ["text"] }}
+        resultStringKeyName={type === "user" ? "name" : "text"}
         items={items}
         onSearch={handleOnSearch}
         onSelect={handleOnSelect}

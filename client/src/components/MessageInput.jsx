@@ -10,7 +10,6 @@ const MessageInput = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const receiver = useSelector((state) => state.selectedUser);
   const fileInputRef = useRef(null);
-  const messages = useSelector((state) => state.messages);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
