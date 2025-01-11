@@ -1,13 +1,12 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { setSelectedUser } from "../store/selectedUserReducer";
-import { onlineUsers } from "../services/socket";
 import { X } from "lucide-react";
 import { Link } from "react-router-dom";
+import useSocket from "../utils/useSocket";
 
 const ChatHeader = () => {
-  const dispatch = useDispatch();
   const selectedUser = useSelector((state) => state.selectedUser);
-
+  const { onlineUsers } = useSocket();
   return (
     <div className="p-2 sm:p-4 border-b border-base-300 w-full">
       <div className="flex items-center justify-between">
@@ -30,7 +29,7 @@ const ChatHeader = () => {
               {selectedUser.name}
             </h3>
             <p className="text-sm text-base-content/70">
-              {onlineUsers.includes(selectedUser._id) ? "Online" : "Offline"}
+              {onlineUsers.includes(selectedUser.id) ? "Online" : "Offline"}
             </p>
           </div>
         </div>

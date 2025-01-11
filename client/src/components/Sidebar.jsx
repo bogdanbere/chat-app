@@ -2,9 +2,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedUser } from "../store/selectedUserReducer";
 import { Users, ListCollapse, X } from "lucide-react";
-import { onlineUsers } from "../services/socket";
 
-const Sidebar = () => {
+const Sidebar = ({ onlineUsers }) => {
   const dispatch = useDispatch();
   const [showOnlineOnly, setShowOnlineOnly] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -12,15 +11,12 @@ const Sidebar = () => {
   const user = useSelector((state) => state.user);
   const selectedUser = useSelector((state) => state.selectedUser);
   const theme = useSelector((state) => state.theme);
-
   const selectUser = (user) => {
     if (isSidebarOpen) setIsSidebarOpen(false);
     dispatch(setSelectedUser(user));
   };
-
   const friends = users.filter((u) => u.friends.includes(user.id));
   const online = friends.filter((f) => onlineUsers.includes(f.id));
-
   const friendsArray = showOnlineOnly ? online : friends;
 
   const handleToggleSidebar = () => {
@@ -80,7 +76,9 @@ const Sidebar = () => {
               />
               <span>Show Online Only</span>
             </label>
-            <span className="text-xs">({onlineUsers.length - 1} online)</span>
+            <span className="text-xs">
+              ({onlineUsers.length === 0 ? 0 : onlineUsers.length - 1} online)
+            </span>
           </div>
 
           {friendsArray.map((u) => (
@@ -108,7 +106,10 @@ const Sidebar = () => {
 
                 <div className="text-left min-w-0">
                   <div className="font-medium truncate text-sm lg:text-base">
-                    {u.name}
+                    {u.name}{" "}
+                    <span className="text-sm text-base-content/70">
+                      {onlineUsers.includes(u.id) ? "online" : "offline"}
+                    </span>
                   </div>
                 </div>
               </div>

@@ -7,8 +7,10 @@ import { LogOut, House, User, SunMoon, Search, Menu } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import Searchbar from "./SearchBar";
+import useSocket from "../utils/useSocket";
 
 const Navbar = () => {
+  const { disconnect } = useSocket();
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
@@ -35,6 +37,7 @@ const Navbar = () => {
   }, [dispatch, theme]);
 
   const handleLogout = () => {
+    disconnect();
     dispatch(authLogout());
     setIsSearchVisible(false);
     setIsMenuOpen(false);

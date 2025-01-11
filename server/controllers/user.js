@@ -116,6 +116,7 @@ userRouter.patch("/", middleware.userExtractor, async (req, res, next) => {
   }
 });
 
+// Add frien
 userRouter.put("/:id", middleware.userExtractor, async (req, res, next) => {
   try {
     const { id } = req.params;

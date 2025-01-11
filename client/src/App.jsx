@@ -85,7 +85,7 @@ const App = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme={theme}
+        theme={theme === "fantasy" ? "light" : "dark"}
         transition={Bounce}
       />
     </div>

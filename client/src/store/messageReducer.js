@@ -17,10 +17,10 @@ const messageSlice = createSlice({
 
 export const { setMessages, addMessage } = messageSlice.actions;
 
-export const getMessages = (receiver) => {
+export const getMessages = (selectedUser) => {
   return async (dispatch) => {
     try {
-      const messages = await messageService.getMessages(receiver);
+      const messages = await messageService.getMessages(selectedUser);
       dispatch(setMessages(messages));
     } catch (err) {
       toast.error("A problem occured on the server");
@@ -28,18 +28,10 @@ export const getMessages = (receiver) => {
   };
 };
 
-export const setMessagesWithoutHttpRequest = (message, messages) => {
-  return async (dispatch) => {
-    if (!messages.contains(message)) {
-      dispatch(setMessages([...messages, message]));
-    }
-  };
-};
-
-export const sendMessage = (receiver, data) => {
+export const sendMessage = (selectedUser, data) => {
   return async (dispatch) => {
     try {
-      const message = await messageService.sendMessage(receiver, data);
+      const message = await messageService.sendMessage(selectedUser, data);
       dispatch(addMessage(message));
     } catch (err) {
       if (err.response.status === 413) {
@@ -47,6 +39,12 @@ export const sendMessage = (receiver, data) => {
       }
       toast.error("Message could not be sent");
     }
+  };
+};
+
+export const subscribeToMessages = (newMessage) => {
+  return (dispatch) => {
+    dispatch(addMessage(newMessage));
   };
 };
 
