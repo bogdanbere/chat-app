@@ -3,13 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSelectedUser } from "../store/selectedUserReducer";
 import { X, Search } from "lucide-react";
 import { Link } from "react-router-dom";
-import useSocket from "../utils/useSocket";
 import Searchbar from "./Searchbar";
 
-const ChatHeader = ({ messages }) => {
+const ChatHeader = ({ messages, onlineUsers }) => {
   const dispatch = useDispatch();
   const selectedUser = useSelector((state) => state.selectedUser);
-  const { onlineUsers } = useSocket();
   const [isSearchVisible, setIsSearchVisible] = useState(false);
 
   const handleOnSearch = (string, results) => {
@@ -54,7 +52,13 @@ const ChatHeader = ({ messages }) => {
             <h3 className="font-medium text-sm sm:text-base">
               {selectedUser.name}
             </h3>
-            <p className="text-sm text-base-content/70">
+            <p
+              className={`text-sm ${
+                onlineUsers.includes(selectedUser.id)
+                  ? "text-green-500" // Green text for online users
+                  : "text-base-content/70" // Default text for offline users
+              }`}
+            >
               {onlineUsers.includes(selectedUser.id) ? "Online" : "Offline"}
             </p>
           </div>

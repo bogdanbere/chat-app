@@ -107,7 +107,13 @@ const Sidebar = ({ onlineUsers }) => {
                 <div className="text-left min-w-0">
                   <div className="font-medium truncate text-sm lg:text-base">
                     {u.name}{" "}
-                    <span className="text-sm text-base-content/70">
+                    <span
+                      className={`text-sm ${
+                        onlineUsers.includes(u.id)
+                          ? "text-green-500" // Green text for online users
+                          : "text-base-content/70" // Default text for offline users
+                      }`}
+                    >
                       {onlineUsers.includes(u.id) ? "online" : "offline"}
                     </span>
                   </div>
