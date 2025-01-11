@@ -94,7 +94,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-base-100 border-b border-base-300 fixed w-full top-0 z-40 backdrop-blur-lg bg-base-100/80">
+    <nav className="bg-base-100 border-b border-base-300 fixed w-full top-0 z-50 backdrop-blur-lg bg-base-100/80">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <Link to="/" className="flex items-center space-x-3">
           <div className="size-9 rounded-lg bg-primary/10 flex items-center justify-center">

@@ -18,6 +18,7 @@ const ChatContainer = () => {
   const chatContainerRef = useRef(null);
   const { subscribe, unsubscribe } = useSocket(user.id);
 
+  // Fetch messages and subscribe to updates
   useEffect(() => {
     dispatch(getMessages(selectedUser.id));
     subscribe(selectedUser.id, (message) => {
@@ -26,35 +27,34 @@ const ChatContainer = () => {
     return () => unsubscribe();
   }, [selectedUser.id, dispatch, subscribe]);
 
+  // Detect whether the user is at the bottom of the chat
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          setIsAtBottom(entry.isIntersecting);
-        });
-      },
-      { root: chatContainerRef.current, threshold: 1.0 }
-    );
+    const handleScroll = () => {
+      if (chatContainerRef.current) {
+        const { scrollTop, scrollHeight, clientHeight } =
+          chatContainerRef.current;
+        setIsAtBottom(scrollTop + clientHeight >= scrollHeight - 10); // Add a small margin
+      }
+    };
 
-    if (messageEndRef.current) {
-      observer.observe(messageEndRef.current);
+    const container = chatContainerRef.current;
+    if (container) {
+      container.addEventListener("scroll", handleScroll);
     }
 
-    return () => observer.disconnect();
+    return () => {
+      if (container) {
+        container.removeEventListener("scroll", handleScroll);
+      }
+    };
   }, []);
 
+  // Scroll to the bottom when necessary
   useEffect(() => {
     if (isAtBottom && messageEndRef.current) {
       messageEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-
-    if (
-      messages.length > 0 &&
-      messages[messages.length - 1].sender === user.id
-    ) {
-      messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messages, isAtBottom, user.id]);
+  }, [messages, isAtBottom]);
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden bg-base-100 items-center justify-center bg-base-100/50 mb-6 mt-1 min-w-[358px] sm:min-w-[672px] lg:min-w-[650px]">
