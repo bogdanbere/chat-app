@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { subscribeToMessages, getMessages } from "../store/messageReducer";
 import useSocket from "../utils/useSocket";
 
-const ChatContainer = ({ onlineUsers }) => {
+const ChatContainer = () => {
   const dispatch = useDispatch();
   const receiver = useSelector((state) => state.selectedUser);
   const user = useSelector((state) => state.user);
@@ -56,6 +56,14 @@ const ChatContainer = ({ onlineUsers }) => {
     }
   }, [messages, isAtBottom, user.id]);
 
+  const handleOnSelect = (item) => {
+    const messageElement = document.getElementById(`message-${item.id}`);
+
+    if (messageElement) {
+      messageElement.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
   return (
     <div className="flex-1 flex flex-col overflow-hidden bg-base-100 items-center justify-center bg-base-100/50 mb-6 mt-1 min-w-[358px] sm:min-w-[672px] lg:min-w-[650px]">
       <ChatHeader />
@@ -68,6 +76,7 @@ const ChatContainer = ({ onlineUsers }) => {
         ].map((message) => (
           <div
             key={message.id}
+            id={`message-${message.id}`}
             className={`chat ${
               message.sender === user.id ? "chat-end mr-8" : "chat-start ml-8"
             }`}

@@ -8,9 +8,9 @@ const MessageInput = () => {
   const dispatch = useDispatch();
   const [text, setText] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
-  const [isTextFocused, setIsTextFocused] = useState(false);
   const receiver = useSelector((state) => state.selectedUser);
   const fileInputRef = useRef(null);
+  const messages = useSelector((state) => state.messages);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -81,11 +81,7 @@ const MessageInput = () => {
         onSubmit={handleSendMessage}
         className="flex items-center gap-2 ml-6"
       >
-        <div
-          className="flex-1 flex gap-2 mr-2 justify-around"
-          onFocus={() => setIsTextFocused(true)}
-          onBlur={() => setIsTextFocused(false)}
-        >
+        <div className="flex-1 flex gap-2 mr-2 justify-around">
           <textarea
             type="text"
             className="w-full input input-bordered rounded-lg input-sm sm:input-md resize-none"
@@ -93,7 +89,7 @@ const MessageInput = () => {
             value={text}
             onChange={handleTextInputChange}
             style={{
-              minHeight: isTextFocused ? "120px" : "40px",
+              minHeight: "40px",
               maxWidth: "500px",
             }}
           />
@@ -112,12 +108,11 @@ const MessageInput = () => {
               }`}
               onClick={() => fileInputRef.current?.click()}
             >
-              <Image size={20} />
+              <Image size={22} />
             </button>
-
             <button
               type="submit"
-              className="btn btn-circle ml-2" // Small left margin
+              className="btn btn-circle ml-2"
               disabled={!text.trim() && !imagePreview}
             >
               <Send size={22} />

@@ -1,12 +1,38 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSelectedUser } from "../store/selectedUserReducer";
 import { X } from "lucide-react";
 import { Link } from "react-router-dom";
 import useSocket from "../utils/useSocket";
 
 const ChatHeader = () => {
+  const dispatch = useDispatch();
   const selectedUser = useSelector((state) => state.selectedUser);
   const { onlineUsers } = useSocket();
+
+  const handleOnSearch = (string, results) => {
+    const filteredResults = results.filter((item) =>
+      item.name.toLowerCase().includes(string.toLowerCase())
+    );
+    return filteredResults.length > 0 ? filteredResults : [];
+  };
+
+  const handleOnSelect = (item) => {
+    navigate(`/profile/${item.id}`);
+  };
+
+  const formatResult = (item) => {
+    return (
+      <>
+        <Link
+          to={`/profile/${item.id}`}
+          style={{ display: "block", textAlign: "left" }}
+        >
+          {item.name}
+        </Link>
+      </>
+    );
+  };
+
   return (
     <div className="p-2 sm:p-4 border-b border-base-300 w-full">
       <div className="flex items-center justify-between">
@@ -22,7 +48,6 @@ const ChatHeader = () => {
               </Link>
             </div>
           </div>
-
           {/* User info */}
           <div>
             <h3 className="font-medium text-sm sm:text-base">
