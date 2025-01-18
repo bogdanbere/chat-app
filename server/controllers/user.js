@@ -65,8 +65,6 @@ userRouter.post("/", async (req, res, next) => {
       password: passwordHash,
     });
 
-    // Generate token
-    generateToken(user._id, res);
     const savedUser = await user.save();
 
     res.status(201).json(savedUser);
@@ -116,7 +114,7 @@ userRouter.patch("/", middleware.userExtractor, async (req, res, next) => {
   }
 });
 
-// Add frien
+// Add friend
 userRouter.put("/:id", middleware.userExtractor, async (req, res, next) => {
   try {
     const { id } = req.params;

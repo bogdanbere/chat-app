@@ -65,7 +65,7 @@ const ChatHeader = ({ messages, onlineUsers }) => {
         </div>
 
         {/* Search Bar for Desktop */}
-        <div className="flex-1 hidden md:flex justify-center">
+        <div className="hidden md:flex flex-1 justify-center">
           <Searchbar
             handleOnSelect={handleOnSelect}
             formatResult={formatResult}
@@ -77,13 +77,15 @@ const ChatHeader = ({ messages, onlineUsers }) => {
         </div>
 
         {/* Buttons */}
-        <div className="flex items-center md:hidden">
+        <div className="flex items-center gap-2">
+          {/* Show search toggle button only on mobile */}
           <button
             onClick={toggleSearchBar}
-            className="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5"
+            className="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 md:hidden"
           >
             <Search className="w-5 h-5" />
           </button>
+
           <button
             onClick={() => dispatch(setSelectedUser(null))}
             className="btn btn-sm sm:btn-md"
